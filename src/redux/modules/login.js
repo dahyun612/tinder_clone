@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from 'axios';
 
 
 //async를 통한 비동기로 데이터를 받아오는 과정
 export const __login = createAsyncThunk(
-    "api/member/login",
+    "/member/login",
     //로그인을 시행하여 토큰 및 닉네임 정보를 받아옴
     async(payload,thunkAPI) => {
         try {
-            const data = await axios.post("http://3.34.5.30:8080/api/member/login", payload)
-            localStorage.setItem("token1",data,headers.authorization)
+            const data = await axios.post("http://52.79.251.110/member/login", payload)
+            localStorage.setItem("token1",data.headers.authorization)
             localStorage.setItem("token",data.headers.refreshtoken)
             localStorage.setItem("name",data.data.data)
             if(data.data.success===false)
@@ -22,10 +22,10 @@ export const __login = createAsyncThunk(
 );
 //로그아웃을 통해 서버에서도 로그앙수 인지 및 토큰갱신
 export const __logout = createAsyncThunk(
-    "/api/logout",
+    "/member/logout",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.post("http://3.34.5.30:8080/api/logout",{
+            const data = await axios.post("http://52.79.251.110/member/logout",{
                 headers: {
                     Authorization: localStorage.getItem('token1'),
                     RefreshToken: localStorage.getItem('token2'),

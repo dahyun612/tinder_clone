@@ -1,5 +1,4 @@
-import FormLogin from "../components/form/formLogin/FormLogin";
-
+import Start from "../components/form/formLogin/Start";
 
 // 로그인 페이지
 
@@ -7,7 +6,7 @@ const Login = () => {
     return (
         <div>
             
-            <FormLogin />
+            <Start />
         </div>
     )
 }

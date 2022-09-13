@@ -4,10 +4,10 @@ import axios from "axios";
 
 //마이페이지 본인정보 받아오기
 export const __getMember = createAsyncThunk (
-    "api/user",
+    "profile/member/mypage",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.get(`http://3.34.5.30:8080/api/user`, {
+            const data = await axios.get(`http://52.79.251.110/profile/member/mypage`, {
                 headers : {
                     Authorization : localStorage.getItem('token1'),
                     RefreshToken: localStorage.getItem('token2'),
@@ -20,10 +20,10 @@ export const __getMember = createAsyncThunk (
 );
 //본인정보수정하기(닉네임변경)
 export const __changeMember = createAsyncThunk(
-    "api/user",
+    "profile/update/nickname",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.patch(`http://3.34.5.30:8080/api/user`, payload,{
+            const data = await axios.patch(`"http://52.79.251.110/profile/update/nickname`, payload,{
                 headers : {
                     Authorization:localStorage.getItem('token1'),
                     RefreshToken: localStorage.getItem('token2'),
@@ -38,12 +38,12 @@ export const __changeMember = createAsyncThunk(
         }
     }
 );
-
-export const __signup = createAsyncThunk(
-    "api/member/sighup",
+//회원가입하기
+export const __signUp = createAsyncThunk(
+    "/member/signup",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.post("http://3.34.5.30:8080/api/member/signup",payload);
+            const data = await axios.post("http://52.79.251.110/member/signup",payload);
             if(data.data.success===true)
             alert(data.data.data);
             return thunkAPI.fulfillWithValue(data.data);

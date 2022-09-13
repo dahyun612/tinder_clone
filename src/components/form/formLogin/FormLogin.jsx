@@ -1,27 +1,28 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Navigate, useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState} from "react";
+import { __login } from "../../../redux/modules/login";
 
-
-const Formlogin = () => {
-    // let result = useSelector((state)=>state.login)
+//로그인페이지 여기서 로그인 하면 바로 메인페이지로 넘어감
+const FormLogin = () => {
+    let result = useSelector((state)=>state.login)
     let Navigate = useNavigate();
-    // let dispatch = useDispatch();
-    // let initialState = {
-    //     id:"",
-    //     password:""
-    // }
-    // let [member,setMember] = useState(initialState);
+    let dispatch = useDispatch();
+    let initialState = {
+        id:"",
+        password:""
+    }
+    let [member,setMember] = useState(initialState);
 
-    // const onChangeHandler = (event) => {
-    //     const {name,value} = event.target;
-    //     setMember({...member,[name]:value});
-    // };
-    // const onSubmit = () => {
-    //     dispatch(__login(member));
-    // }
+    const onChangeHandler = (event) => {
+        const {name,value} = event.target;
+        setMember({...member,[name]:value});
+    };
+    const onSubmit = () => {
+        dispatch(__login(member));
+    }
 
     // useEffect(()=> {
     //     if(result.data.success) {
@@ -30,110 +31,103 @@ const Formlogin = () => {
     // })
     return (
 <div>
-    <StForm>
+<StForm>
     <div>
-        
-            <Input
-            placeholder="동무 아이디 입력하라우"
-            // onChange={onChangeHandler}
-            name="id"
-            // value={member.id}
-            type="text"/>
+         <Info>
+     
+            <Input placeholder="아이디"
+                    onChange={onChangeHandler}
+                    name="id"
+                    value={member.id}
+                    type="text"/>
+            <Input placeholder="비밀번호"
+                    onChange={onChangeHandler}
+                    name="passWord"
+                    value={member.passWord}
+                    type="password"/>
+          </Info>
+            </div>
+        <Button onClick={() => { Navigate("/main") }}>로그인</Button>
+        </StForm>
+            </div>
 
-        
-        
-    </div>
-    <div>
-
-            <Input
-            placeholder="동무 비밀번호 입력하라우"
-            // onChange={onChangeHandler}
-            name="password"
-            // value={member.password}
-            type="password"/>
-
-    </div>
-    <div>
-        <Button onClick={()=>{Navigate("/main")}}>들어가라우</Button>
-        <SignButton onClick={()=>{Navigate("/signup")}}>회원가입</SignButton>
-        
-    </div>
-    </StForm>
   
-</div>
 
     )
 };
 
-export default Formlogin;
+export default FormLogin;
 
-const Input = styled.input `
-  width: 250px;
-  height: 60px;
-  border: none;
-  overflow: hidden;
-  display: flex;
-  border-radius: 100px;
-  padding: 0 48px;
-  justify-content: center;
-  margin : auto;
-  font-size: 20px;
-  font-family: 'Yeon Sung', cursive;
-  align-items: center;
-  margin-top: 2rem;
-  margin-bottom: 20px;
-  border: 5px solid #C30D23;
-  &:hover {
-    border: 3px solid #ffa1ac  ;
-    background-color: #fff;
-    color: #0465a6;
-    }
 
-`;
+const Info =styled.div`
+    margin-top: 35rem;
+    width: 430px;
+    display: inline-block;
+    color: white;
+    font-size: 15px;
+`
+
+
 
 
 
 const StForm = styled.div`
-width:450px;
-height: auto;
-margin: 0 auto;
-margin-top: 4rem;
-border-width: 2px;
-border : 4px solid #eee;
-border-radius: 12px;
-padding:12px 24px 24px 24px;
-background-size: 240px;
+background: url("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fbv4tNE%2FbtrLR859YIU%2FcAjLm5ywDWTPva6NktEm00%2Fimg.png") center center ;
+height: 930px;
+background-repeat: no-repeat;
+justify-content: center;
+align-items: center;
 `
 
 const Button = styled.button`
     outline: none;
+    height: 60px;
+    width: 400px;
     border-width: 1px;
-    border-radius: 12px;
+    border-radius: 30px;
     border-style: solid;
+    align-items: center;
+   
     padding: 7px 17px;
     margin: 15px 15px 15px;
     border: none;
-    background: #C30D23;
-    font-size: 20px;
-    font-family: 'Yeon Sung', cursive;
-    color: rgb(255, 255, 255);
-  
+    background: #fff;
+    font-size: 17px;
+   font-weight: 800;
 `
 
-const SignButton = styled.button`
-    outline: none;
-    border-width: 1px;
-    border-radius: 12px;
-    border-style: solid;
-    padding: 7px 17px;
-    margin: 15px 15px 15px;
-    border: none;
-    font-size: 20px;
-    font-family: 'Yeon Sung', cursive;
-    color: rgb(255, 255, 255);
-    border: 3px solid #C30D23  ;
-    background-color: #fff;
-    color: #C30D23;
-    
-    
-`
+const Input = styled.input `
+  border: none;
+  border-radius: 30px;
+  padding: 15px 20px;
+  margin-bottom: 1rem;
+  font-size: 15px;
+  outline: 0;
+  width: 350px;
+  input.placeholder {
+    text-align: left;
+  }
+  ::-webkit-input-placeholder {
+    text-align: left;
+  }
+  :-moz-placeholder {
+    /* Firefox 18- */
+    text-align: left;
+  }
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: center;
+  }
+  :-ms-input-placeholder {
+    text-align: center;
+  }
+  :not([type="submit"]) {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s ease-in-out;
+    :focus {
+      border-color: #ff002f;
+    }
+  }
+`;
+
+

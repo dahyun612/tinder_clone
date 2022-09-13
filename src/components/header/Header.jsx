@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Navigate,useNavigate } from "react-router-dom";
-import bg from "../../img/header.png"
+
 
 
 
@@ -13,14 +13,14 @@ const Header = () => {
     <div>
             <div>
             <HeaderBox>
-             <Title_Logo src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcRD0Ve%2FbtrLKJNfGyg%2FwCSdqThFHdkEAkK92htiGk%2Fimg.png" onClick={() => { Navigate("/") }}></Title_Logo>
+             <Title_Logo src="https://logos-world.net/wp-content/uploads/2020/09/Tinder-Logo.png" onClick={() => { Navigate("/") }}></Title_Logo>
                 <div>
-                <StHeadbtn onClick={() => { Navigate("/mypage") }}>동무정보는 털지않갓어</StHeadbtn>
-                <StHeadbtn onClick={() => { Navigate("/") }}>여기서 나가라우</StHeadbtn>
+                <StHeadbtn onClick={() => { Navigate("/mypage") }}>마이페이지</StHeadbtn>
+                <StHeadbtn onClick={() => { Navigate("/") }}>로그아웃</StHeadbtn>
                 </div>
             </HeaderBox>
             </div>
-            <Title_bg className="main-bg" />
+           
         </div>
   );
 };
@@ -31,14 +31,7 @@ const Header = () => {
 
 export default Header;
 
-const Title_bg = styled.div`
-height:280px;
-background-image: url(${bg});
-background-size: contain;
-background-position: center;
-background-repeat: no-repeat;
 
-`
 
 const HeaderBox = styled.form`
     display: flex;
@@ -61,7 +54,7 @@ outline: none;
     border: none;
     background: #C30D23;
     font-size: 20px;
-    font-family: 'Yeon Sung', cursive;
+    
     color: rgb(255, 255, 255);
     &:hover {
     border: 3px solid #C30D23  ;

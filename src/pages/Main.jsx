@@ -1,13 +1,14 @@
 import React from "react";
-import Header from "../components/header/Header";
-import MainList from "../components/main/MainList";
+
+import TinderCards from "../components/tinder/TinderCard";
 
 
 const  Main=()=> {
   return (
     <>
-    <Header/>
-      <MainList></MainList>
+  
+
+      <TinderCards></TinderCards>
     </>
   );
 }
