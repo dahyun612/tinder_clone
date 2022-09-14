@@ -2,9 +2,9 @@ import {useState,useEffect} from "react";
 import { Navigate,useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __signUp } from "../../../redux/modules/member";
-import { __chkId } from "../../../redux/modules/check/id";
-import { __chkName } from "../../../redux/modules/check/name";
+import { __signUp,__getMember } from "../../../redux/modules/member";
+// import { __chkId } from "../../../redux/modules/check/id";
+// import { __chkName } from "../../../redux/modules/check/name";
 
 //회원가입페이지 회원가입시 이미지 업로드 미들웨어 되는지 확인해볼것 아닐시 이미지전용 미들웨어가 필요하면 구축할것
 const FormSignup = () => {
@@ -16,13 +16,16 @@ const FormSignup = () => {
 
     let Navigate = useNavigate();
     let dispatch = useDispatch();
-    const [check,setCheck] = useState(false);
-    const[pw,setPw] = useState("") 
+    
+
+    const[pw,setPw] = useState("")
+    const [sex,setSex]= useState(""); 
     
     const[chkid, setChkid] = useState(false);   
     const[chkpw, setChkpw] = useState(false);
     const [chkname,setChkname] = useState(false);
     const [upload,setUpload] = useState(false)
+    
     
     let regId = /^[0-9a-z]+$/;
     let regPw = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/
@@ -32,11 +35,11 @@ const FormSignup = () => {
     let initialState = {
         id: "",
         nickName: "",
-        passWord: "",
+        password: "",
         sex : "성별",
         img : "이미지",
-        category : "관심카테고리"
-    }
+        
+    };
 
     let [member,setMember] = useState(initialState);
     //수정되는 내용과 member이 가진 값을 매칭하여 state변경
@@ -51,43 +54,43 @@ const FormSignup = () => {
         //아이디 닉네임 비밀번호 유효성검사(한글,숫자,영어,특수문자, 글자길이등)
         if(!chkid &&!chkname && !chkpw) {
             //중복검사 성공여부 유효성 검사
-            if(userid.data.success &&username.data.success) {
+            if(userid.data.data.success && username.data.data.success) {
                 dispatch(__signUp(member));
                 setMember(initialState);
-                Navigate("/")
+                Navigate("/login")
             }
             else {
                 alert("중복확인 해주세요");
             } 
             }else {
-                alert("양식에 맞는 정보인지 확익해주세요");
+                alert("양식에 맞는 정보인지 확인해주세요");
             }
         };
-    // useEffect(() => {
-    //     if (member.id !== "" && !regId.test(member.id))
-    //         setChkid(true);
-    //     else
-    //         setChkid(false);
-    // }, [member.id])
+    useEffect(() => {
+        if (member.id !== "" && !regId.test(member.id))
+            setChkid(true);
+        else
+            setChkid(false);
+    }, [member.id])
     //닉네임의 state가 변할때마다 유효성검사 시행
-    // useEffect(() => {
-    //     if (member.nickName !== "" && !regName.test(member.nikeName))
-    //         setChkname(true);
-    //     else
-    //         setChkname(false);
-    // },[member.nickName])
-    // //패스워드의state가 변할때마다 유효성검사 시행
-    // useEffect(() => {
-    //     if (pw !== "" && member.passWord !== "" && member.passWord !== pw)
-    //        setChkpw(true);
-    //     else {
-    //         if(!regPw.test(pw))
-    //             setChkpw(true);
-    //         if(!regPw.test(member.passWord))
-    //             setChkpw(true);
-    //         setChkpw(false);
-    //     }
-    // })
+    useEffect(() => {
+        if (member.nickName !== "" && !regName.test(member.nickName))
+            setChkname(true);
+        else
+            setChkname(false);
+    },[member.nickName])
+    //패스워드의state가 변할때마다 유효성검사 시행
+    useEffect(() => {
+        if (pw !== "" && member.password !== "" && member.password !== pw)
+           setChkpw(true);
+        else {
+            if(!regPw.test(pw))
+                setChkpw(true);
+            if(!regPw.test(member.password))
+                setChkpw(true);
+            setChkpw(false);
+        }
+    })
 
     // useEffect를 통한 불필요한 비동기 동작 제어
     useEffect(() => {
@@ -99,13 +102,21 @@ const FormSignup = () => {
             Navigate("/login")
         // 토큰 내용을 확인하여 이미지 및 정보를 불러옴
         }else{
-            dispatch(__getMember(result));
-            dispatch(__getimage());
+            dispatch(__getMember());
+            
         }
     }, [dispatch]);
 
     const img = useSelector((state)=>state.image)
     var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+
+    const handleChange = (e,type) => {
+        const value = e.target.value;
+        if(type==='sex'){
+            setSex(value);
+            console.log('성별반영완료');
+        }
+    }
 
     const onChange = async(e) => {
         // input file에서 선택된 file을 img로 지정
@@ -115,17 +126,17 @@ const FormSignup = () => {
             alert("이미지파일(.jpg, .png, .bmp)만 올려주세요.")
             return
         }
-        // 폼데이터 형식 선언
+       
         const formData = new FormData();
         // api에서 요구하는 key값과 value값 지정 (key : "image", value: 이미지파일)
-        formData.append('image',img);
+        formData.append('img',img);
         // 이미지만 보내면되기때문에 더이상 append하지않고 이미지파일 전송
-        dispatch(__image(formData));
+        dispatch((formData));
         // 사진을 선택하고 사진선택기능 숨기기
         setUpload(false);
         // 폼데이터 들어가는 형식을 보기위한 내용
         // for (var pair of formData.entries()) {
-        //     console.log(pair[0] + ', ' + pair[1]);
+        //     console.log(pair[0] + ',' + pair[1]);
         // }
     }
     
@@ -140,16 +151,11 @@ const FormSignup = () => {
             <Input
             placeholder="아이디를 입력해주세요"
             onChange={onChangeHandler}
-            name=""id
+            name="id"
             type="text"/>
-            <CkButton type = "button"
-            onClick={()=> {
-                dispatch(__chkId({id:member.id}));
-                console.log(member.id);
-            }}>중복확인</CkButton>
             </Label>
         {chkid?
-            <p style={{color:"red"}}>아이디를 확인해주세요.(영문,숫자)</p> :null}
+            <div style={{color:"red"}}>아이디를 확인해주세요.(영문,숫자)</div> :null}
         
         <div>
         <Label>
@@ -157,7 +163,7 @@ const FormSignup = () => {
             placeholder="비밀번호를 입력해주세요"
             onChange={onChangeHandler}
             name="password"
-            value={member.passWord}
+            value={member.password}
             type="password"/>
         </Label>
         </div>
@@ -173,43 +179,51 @@ const FormSignup = () => {
         </Label>
         </div>
         {chkpw?
-        <p style={{color:"red"}}>패스워드를 입력해주세요</p> :null}
+        <div style={{color:"red"}}>패스워드를 확인해주세요</div> :null}
         <div>
         <Label>
             <Input
             placeholder="닉네임을 적어주세요"
             onChange={onChangeHandler}
-            name="nikeName"
+            name="nickName"
             value={member.nickName}
             type="text"/>
-            <CkButton type="button"
-            onClick={()=> {
-                dispatch(__chkName({nickName: member.nickName}));
-                console.log(member.nickName)
-            }}>중복확인</CkButton>
+            
         </Label>
         {chkname ?
-        <p style={{color:"red"}}>닉네임을 확인해주세요.(한글,영문,숫자)</p> :null}
+        <div style={{color:"red"}}>닉네임을 확인해주세요.(한글,영문,숫자)</div> :null}
         </div>
 
 
         <div>
         <Label>
-            <div>성별</div>
-          <StButton>남자</StButton>
-           <StButton>여자</StButton>
-           <div>사진을 등록해주세요</div>
-           {upload?
-           <PhotoInput
+        
+  <span>성별</span>
+  <div>
+  <label htmlFor="male">남성</label>
+  <input id="male" type="radio"  value="남성" name="sex" onChange={handleChange}/>
+  </div>
+  <div>
+  <label htmlFor="female">여성</label>
+  <input id="female" type="radio" defaultChecked value="여성" name="sex"onChange={handleChange}/>
+  </div>
+
+              
+        
+                {upload?
+                <PhotoInput
                 type='file' 
                 accept='image/*' 
                 name='profile_img' 
-                onChange={onChange}/>
+                onChange={onChange}
+                src={img?.data?.data}/>
                 :null}
                 < CkButton onClick={()=>{
                     if(!upload) {setUpload(true);}
                     else {setUpload(false);}
                 }}>프로필사진업로드</ CkButton>
+                
+            
          </Label>
         </div>
         <NextButton onClick={() => { Navigate("/useagree") }}>다음단계</NextButton>
@@ -314,8 +328,8 @@ const CkButton = styled.button`
     box-sizing: border-box;
     text-transform: uppercase;
     z-index: 10px;
-    top:165px;
-    right: 50px;
+    top:645px;
+    right: 160px;
     cursor: pointer;
     background-color: #fff;
     &:hover {  
@@ -325,7 +339,7 @@ const CkButton = styled.button`
     }
 `;
 
-const PhotoInput = styled.img`
+const PhotoInput = styled.input`
 width: 100px;
 margin-top:1rem;
 margin-bottom: 1rem;

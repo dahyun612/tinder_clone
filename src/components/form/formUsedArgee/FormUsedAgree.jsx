@@ -1,15 +1,49 @@
 import styled from "styled-components";
 import { Navigate,useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {useEffect} from "react";
 
 // 이용약관 체크 페이지 
 const FormUsedAgree = () => {
     let Navigate = useNavigate();
 
 
+    // const [checkList,setCheckList] = useState<String>([]);
+    // const [buttoncolor,setButtonColor] = useState<Boolean>(false);
+
+    // const checkAll = (e) => {
+    //     e.target.checked
+    //     ? setCheckList(["개인정보","위치정보","이용정보","3자정보","국외정보"])
+    //     : setCheckList([]);
+
+    // };
+    // const check = (e) => {
+    //     e.target.checked
+    //     ? setCheckList([...checkList,e.target.name])
+    //     : setCheckList(checkList.filter((choice) => choice !== e.target.name));
+
+    // };
+
+    // useEffect(()=> {
+    //     if (  checkList.includes("개인정보") &&
+    //           checkList.includes("위치정보") &&
+    //           checkList.includes("이용정보") &&
+    //           checkList.includes("3자정보") &&
+    //           checkList.includes("국외정보")         
+    //     ) {
+    //         setButtonColor(true);
+    //     }else{
+    //         setButtonColor(false);
+    //     }
+    // },[checkList]);
+
+
+    
+
   return (
             <div>
                
-            <AgreeBox>
+               <AgreeBox>
             <BackButton onClick={() => { Navigate("/signup") }}/>
                 <Box>
             <div class="agree-wrap">
@@ -24,19 +58,19 @@ const FormUsedAgree = () => {
                 </div>
                 
             <p><span>
-            <input type="checkbox"/>
+            <input type="checkbox" name="check1"/>
             </span> <strong>(필수)개인정보(위치정보 포함)의 수집 및 이용에 동의합니다.</strong></p>
             <p><span>
-            <input type="checkbox"/>
+            <input type="checkbox" name="check2"/>
             </span> <strong>(필수)<Color>위치기반서비스</Color> 이용약관에 동의합니다.</strong></p>
             <p><span>
-            <input type="checkbox"/>
+            <input type="checkbox" name="check3"/>
             </span> <strong>(필수)<Color>이용약관</Color>에 동의합니다.</strong></p>
             <p><span>
-            <input type="checkbox"/>
+            <input type="checkbox" name="check4"/>
             </span> <strong>(필수)개인정보의 제3자 제공에 동의합니다.</strong></p>
             <p><span>
-            <input type="checkbox"/>
+            <input type="checkbox"name="check5"/>
             </span> <strong>(필수)개인정보의 국외 이전에 동의합니다.</strong></p>
 
                     
@@ -51,9 +85,6 @@ const FormUsedAgree = () => {
              </Info>
      
             </AgreeBox>
-            
-         
-      
          </div>
   );
 };
@@ -90,12 +121,14 @@ const Button = styled.button`
     background:#ff5555;
     font-size: 22px;
     font-weight: 800;
+    cursor: pointer;
 `
 
 const Color = styled.text`
 color:red;
 text-decoration: underline;
 `
+
 
 const AgreeBox = styled.div`
 position: absolute;

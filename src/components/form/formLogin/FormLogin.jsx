@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState} from "react";
 import { __login } from "../../../redux/modules/login";
 
+
 //로그인페이지 여기서 로그인 하면 바로 메인페이지로 넘어감
 const FormLogin = () => {
     let result = useSelector((state)=>state.login)
@@ -19,16 +20,19 @@ const FormLogin = () => {
     const onChangeHandler = (event) => {
         const {name,value} = event.target;
         setMember({...member,[name]:value});
-    };
+        if (member.id === "" && member.pw === "") 
+        alert("아이디 비밀번호 입력해주세요")}
     const onSubmit = () => {
         dispatch(__login(member));
     }
+      
+    useEffect(()=> {
+        if(result.data.success) {
+            Navigate('/main');
+        }
+    })
 
-    // useEffect(()=> {
-    //     if(result.data.success) {
-    //         Navigate('/main');
-    //     }
-    // })
+    
     return (
 <div>
 <StForm>
@@ -40,14 +44,15 @@ const FormLogin = () => {
                     name="id"
                     value={member.id}
                     type="text"/>
+                    
             <Input placeholder="비밀번호"
                     onChange={onChangeHandler}
-                    name="passWord"
-                    value={member.passWord}
+                    name="password"
+                    value={member.password}
                     type="password"/>
           </Info>
             </div>
-        <Button onClick={() => { Navigate("/main") }}>로그인</Button>
+            <Button onClick={()=>{onSubmit()}}>로그인</Button>
         </StForm>
             </div>
 

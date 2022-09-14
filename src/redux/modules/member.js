@@ -7,14 +7,14 @@ export const __getMember = createAsyncThunk (
     "profile/member/mypage",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.get(`http://52.79.251.110/profile/member/mypage`, {
+            const data = await axios.get(`http://13.209.88.230:8080/profile/member/mypage`, payload,{
                 headers : {
                     Authorization : localStorage.getItem('token1'),
                     RefreshToken: localStorage.getItem('token2'),
                 }});
                 return thunkAPI.fulfillWithValue(data.data);
         }catch (error){
-            return thunkAPI.rejectWithValue(error);
+            return thunkAPI.rejectWithValue(error.action);
         }
     }
 );
@@ -23,7 +23,7 @@ export const __changeMember = createAsyncThunk(
     "profile/update/nickname",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.patch(`"http://52.79.251.110/profile/update/nickname`, payload,{
+            const data = await axios.put(`http://13.209.88.230:8080/profile/update/nickname`, payload,{
                 headers : {
                     Authorization:localStorage.getItem('token1'),
                     RefreshToken: localStorage.getItem('token2'),
@@ -43,7 +43,10 @@ export const __signUp = createAsyncThunk(
     "/member/signup",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.post("http://52.79.251.110/member/signup",payload);
+            const data = await axios.post("http://13.209.88.230:8080/member/signup",payload,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"  
+             }});
             if(data.data.success===true)
             alert(data.data.data);
             return thunkAPI.fulfillWithValue(data.data);

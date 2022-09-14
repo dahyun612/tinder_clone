@@ -8,14 +8,15 @@ export const __login = createAsyncThunk(
     //로그인을 시행하여 토큰 및 닉네임 정보를 받아옴
     async(payload,thunkAPI) => {
         try {
-            const data = await axios.post("http://52.79.251.110/member/login", payload)
+            const data = await axios.post("http://13.209.88.230:8080/member/login", payload)
             localStorage.setItem("token1",data.headers.authorization)
             localStorage.setItem("token",data.headers.refreshtoken)
-            localStorage.setItem("name",data.data.data)
+            // localStorage.setItem("name",data.data)
             if(data.data.success===false)
             alert(data.data.error.message);
             return thunkAPI.fulfillWithValue(data.data);
         } catch (error){
+            console.log()
             return thunkAPI.rejectWithValue(error);
         }
     }
@@ -25,12 +26,12 @@ export const __logout = createAsyncThunk(
     "/member/logout",
     async (payload,thunkAPI) => {
         try {
-            const data = await axios.post("http://52.79.251.110/member/logout",{
+            const data = await axios.post("http://13.209.88.230:8080/member/logout",{
                 headers: {
                     Authorization: localStorage.getItem('token1'),
                     RefreshToken: localStorage.getItem('token2'),
               }})
-        }catch (error) {
+        } catch (error) {
 
         }
     }

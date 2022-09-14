@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "id": "kimso",
+      "nickName": "의자파괴범",
+      "sex": "",
+      "img": "이미지"
+      
+    },
+    {
+      "id": "noun",
+      "nickName": "예스은지",
+      "sex": "성별",
+      "img": "이미지"
+    },
+     
+    {
+      "id": "dada",
+      "nickName": "일그러진얼굴",
+      "sex": "성별",
+      "img": "이미지"
+    }
+      
+  ]
+}
